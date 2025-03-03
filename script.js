@@ -1,4 +1,18 @@
+document.addEventListener("DOMContentLoaded", ()=> {
+    const storageTasks = JSON.parse(localStorage.getItem('tasks'));
+
+    if (storageTasks){
+        storageTasks.forEach((task) => task.push(task));
+        updateTasksList();
+        updateStats();
+    };
+});
+
 let task = [];
+
+const saveTasks = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
 const addTask = () => {
     const taskInput = document.getElementById('taskInput');
@@ -9,6 +23,7 @@ const addTask = () => {
         taskInput.value = "";
         updateTasksList();
         updateStats();
+        saveTasks();
     }
 };
 
@@ -16,12 +31,14 @@ const toggleTaskComplete = (index) => {
     task[index].completed = !task[index].completed;
     updateTasksList();
     updateStats();
+    saveTasks();
 }
 
 const deleteTask = (index) => {
     task.splice(index, 1);
     updateTasksList();
     updateStats();
+    saveTasks();
 }
 
 const editTask = (index) => {
@@ -31,6 +48,7 @@ const editTask = (index) => {
     task.splice(index, 1);
     updateTasksList();
     updateStats();
+    saveTasks();
 }
 
 const updateStats = () => {
@@ -42,6 +60,10 @@ const updateStats = () => {
     progressBar.style.width = `${progress}%`
 
     document.getElementById('numbers').innerText = `${completeTasks} / ${totalTasks}`;
+
+    if (task.length && completeTasks === totalTasks) {
+        blaskConfetti();
+    }
 }
 
 const updateTasksList = () => {
@@ -75,3 +97,45 @@ document.getElementById('newTask').addEventListener('click', function(e){
 
     addTask();
 });
+
+const blaskConfetti = () => {
+    const count = 200,
+  defaults = {
+    origin: { y: 0.7 },
+  };
+
+function fire(particleRatio, opts) {
+  confetti(
+    Object.assign({}, defaults, opts, {
+      particleCount: Math.floor(count * particleRatio),
+    })
+  );
+}
+
+fire(0.25, {
+  spread: 26,
+  startVelocity: 55,
+});
+
+fire(0.2, {
+  spread: 60,
+});
+
+fire(0.35, {
+  spread: 100,
+  decay: 0.91,
+  scalar: 0.8,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 25,
+  decay: 0.92,
+  scalar: 1.2,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 45,
+});
+}
