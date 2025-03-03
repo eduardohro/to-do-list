@@ -11,6 +11,24 @@ const addTask = () => {
     }
 };
 
+const toggleTaskComplete = (index) => {
+    task[index].completed = !task[index].completed;
+    updateTasksList();
+}
+
+const deleteTask = (index) => {
+    task.splice(index, 1);
+    updateTasksList();
+}
+
+const editTask = (index) => {
+    const taskInput = document.getElementById('taskInput');
+    taskInput.value = task[index].text;
+
+    task.splice(index, 1);
+    updateTasksList();
+}
+
 const updateTasksList = () => {
     const taskList = document.getElementById('task-list');
     taskList.innerHTML = "";
@@ -20,7 +38,7 @@ const updateTasksList = () => {
 
         listItem.innerHTML = `
         <div class="taskItem">
-            <div class="task ${task.completed ? "completed":""}">
+            <div class="task ${task.completed ? "completed" : ""}">
                 <input type="checkbox" class="checkbox" ${task.completed ? "checked" : ""
                 }/>
                 <p>${task.text}</p>
