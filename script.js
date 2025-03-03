@@ -1,19 +1,19 @@
 let task = [];
 
 const addTask = () => {
-    const taskInput = document.getElementById('taskInput')
-    const text = taskInput.ariaValueMax.trim()
+    const taskInput = document.getElementById('taskInput');
+    const text = taskInput.value.trim();
 
-    if(text){
+    if (text) {
         task.push({ text: text, completed: false});
-
+        taskInput.value = "";
         updateTasksList();
     }
 };
 
 const updateTasksList = () => {
-    const taskList = document.getElementById('task-list')
-    taskList.innerHTML = ''
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = "";
 
     task.forEach((task, index) => {
         const listItem = document.createElement('li');
